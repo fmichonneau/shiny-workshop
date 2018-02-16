@@ -23,7 +23,14 @@ fluidPage(
     numericInput("n_instructors", "Number of instructors: ", value = 2, min = 1, max = 10),
     uiOutput("instructors"),
     numericInput("n_helpers", "Number of helpers: ", value = 2, min = 0, max = 10),
-    uiOutput("helpers")
+    uiOutput("helpers"),
+
+    h3("What are you teaching?"),
+    selectInput("workshop_type", label = "Curriculum:",
+                choices = c("SWC" = "swc",
+                            "DC - Ecology" = "dc_ecology",
+                            "Instructor Training" = "instructor_training")),
+    uiOutput("curriculum_selector")
 
 
 
