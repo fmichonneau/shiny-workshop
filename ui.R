@@ -13,6 +13,7 @@ fluidPage(
     radioButtons("time_stop_ampm", "AM/PM", choices = c(am = "am", pm = "pm"), selected = "pm", inline = TRUE),
 
     h3("Where is the workshop taking place?"),
+    textInput("short_name", "Short name:"),
     textInput("location", "Address of the workshop:"),
     actionButton("push", "Search"),
     textOutput("lat"),
@@ -30,7 +31,11 @@ fluidPage(
                 choices = c("SWC" = "swc",
                             "DC - Ecology" = "dc_ecology",
                             "Instructor Training" = "instructor_training")),
-    uiOutput("curriculum_selector")
+    uiOutput("curriculum_selector"),
+
+    h3("Misc"),
+    checkboxInput("use_etherpad", "Are you going to use an Etherpad?", value = FALSE),
+    textInput("etherpad_address", "Etherpad suggested address: ", value = "")
 
 
 

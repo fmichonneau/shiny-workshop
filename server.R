@@ -42,5 +42,16 @@ shinyServer(
                    )
         })
 
+        observe({
+            if (input$use_etherpad) {
+                message(str(input$workshop_dates))
+                start_date <- format(input$workshop_dates[1], "%Y-%m-%d")
+                etherpad_url <- paste0("https://etherpad.swcarpentry.org/",
+                                           start_date, "-", input$short_name)
+                updateTextInput(session, "etherpad_address", value = etherpad_url)
+            } else {
+                updateTextInput(session, "etherpad_address", value = "")
+            }
+        })
     }
 )
