@@ -15,7 +15,7 @@ fluidPage(
     radioButtons("time_stop_ampm", "AM/PM", choices = c(am = "am", pm = "pm"), selected = "pm", inline = TRUE),
 
     h3("Where is the workshop taking place?"),
-    textInput("short_name", "Short name:"),
+    textInput("short_name", "Short name (slug):"),
     textInput("location", "Address of the workshop:"),
     actionButton("push", "Search"),
     textOutput("lat"),
