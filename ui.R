@@ -37,8 +37,10 @@ fluidPage(
 
     h3("Misc"),
     checkboxInput("use_etherpad", "Are you going to use an Etherpad?", value = FALSE),
-    textInput("etherpad_address", "Etherpad suggested address: ", value = "")
+    textInput("etherpad_address", "Etherpad suggested address: ", value = ""),
 
+    h3("Done"),
+    uiOutput("submit_button")
 
 
 )
