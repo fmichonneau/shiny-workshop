@@ -4,12 +4,14 @@ fluidPage(
 
     h3("Start time for the workshop: "),
     numericInput("time_start_hour", "Start time (hours): ", value = 9, min = 1, max = 11),
-    numericInput("time_start_min", "Start time (minutes):", value = 0, min = 0, max = 59),
+    selectInput("time_start_min", "Start time (minutes):",
+                choices = c("00", "15", "30", "45")),
     radioButtons("time_start_ampm", "AM/PM", choices = c(am = "am", pm = "pm"), inline = TRUE),
 
     h3("End time for the workshop: "),
     numericInput("time_stop_hour", "Stop time (hours): ", value = 5, min = 1, max = 11),
-    numericInput("time_stop_min", "Stop time (minutes):", value = 0, min = 0, max = 59),
+    selectInput("time_stop_min", "Stop time (minutes):",
+                 choices = c("00", "15", "30", "45")),
     radioButtons("time_stop_ampm", "AM/PM", choices = c(am = "am", pm = "pm"), selected = "pm", inline = TRUE),
 
     h3("Where is the workshop taking place?"),
