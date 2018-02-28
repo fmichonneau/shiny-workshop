@@ -57,5 +57,19 @@ shinyServer(
                 updateTextInput(session, "etherpad_address", value = "")
             }
         })
+        repo <- eventReactive(input$generate_workshop, {
+            repo_nm <- make_slug(input$workshop_dates[1],
+                                 input$short_name)
+            message("creating repo ", repo_nm)
+            ## 1. create repository
+            repo_create <- gh::gh("POST /user/repos",
+                                  name = repo_nm,
+                                  description = paste("Website for workshop", repo_nm))
+            ## 2. import repository
+            res <- gh::gh("PUT /repos/:owner/:repo/import",
+                          vcs_url = "https://github.com/swcarpentry/workshop-template",
+                          vcs = "git")
+
+        })
     }
 )
