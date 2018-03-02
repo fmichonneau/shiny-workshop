@@ -44,6 +44,8 @@ shinyServer(
         })
 
         make_slug <- function(start_date, short_name) {
+            if (short_name == "")
+                stop("short name (slug) missing for this workshop")
             start_date <- format(start_date, "%Y-%m-%d")
             slug <- paste0(start_date, "-", short_name)
         }
