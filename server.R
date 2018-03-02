@@ -60,19 +60,46 @@ shinyServer(
                 updateTextInput(session, "etherpad_address", value = "")
             }
         })
+
+
+
+        ## output$submit_button <- renderUI({
+
+        ## })
+
+
         repo <- eventReactive(input$generate_workshop, {
             repo_nm <- make_slug(input$workshop_dates[1],
                                  input$short_name)
             message("creating repo ", repo_nm)
             ## 1. create repository
-            repo_create <- gh::gh("POST /user/repos",
-                                  name = repo_nm,
-                                  description = paste("Website for workshop", repo_nm))
+            repo_create <- try(gh::gh("POST /user/repos",
+                                      name = repo_nm,
+                                      description = paste("Website for workshop", repo_nm)),
+                               silent = TRUE)
+            if (inherits(repo_create, "try-error")) {
+                stop("Can't create repository. Does it already exist?")
+            } else if (inherits(repo_create, "gh_response")) {
+                if (identical(attr(repo_create, "response")$status,
+                              "201 Created"))
+                    message("repo created")
+            } else stop("something went wrong in repository creation.")
+
             ## 2. import repository
+            owner_id <- repo_create$owner$login
             res <- gh::gh("PUT /repos/:owner/:repo/import",
+                          owner = owner_id,  repo = repo_nm,
                           vcs_url = "https://github.com/swcarpentry/workshop-template",
-                          vcs = "git")
+                          vcs = "git",
+                          .send_headers = c("Accept" = "application/vnd.github.barred-rock-preview"))
+            ## TODO deal with answer from import
+            ## display messages on shinyapp
+            ## catch errors before they stop the app
 
         })
+
+        output$repo_out <- renderUI(repo())
+
     }
+
 )

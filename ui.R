@@ -40,7 +40,9 @@ fluidPage(
     textInput("etherpad_address", "Etherpad suggested address: ", value = ""),
 
     h3("Done"),
-    uiOutput("submit_button")
+    ##uiOutput("submit_button")
+    actionButton("generate_workshop", "Create GitHub repository"),
 
+    uiOutput("repo_out")
 
 )
