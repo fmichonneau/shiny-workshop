@@ -1,17 +1,27 @@
-library(ggmap)
-
 shinyServer(
     function(input, output, session) {
 
-        latlong <- eventReactive(input$push, {
-            ggmap::geocode(input$location, output = "latlon")
-        })
-
         output$res <- renderTable(latlong())
 
-        output$instructors <- renderUI(lapply(seq_len(input$n_instructors), function(x) {
-            textInput(paste0("inst-", x), paste0("Instructor ", x, ": "))
-        }))
+        output$gmaps_res <- renderUI({
+            if (!is.null(input$gmaps_results)) {
+                list(
+                    renderText(paste("Latitude:", input$gmaps_results$geometry$location$lat[1])),
+                    renderText(paste("Longitude:", input$gmaps_results$geometry$location$lng[1])),
+                    renderText(paste("Place name:", input$gmaps_place$name)),
+                    renderText(paste("Address:", input$gmaps_results$formatted_address))
+                    ## renderPrint(input$gmaps_results)
+                    ## renderPrint(input$gmaps_place)
+                )
+            }
+        })
+
+        output$instructors <- renderUI(
+            lapply(seq_len(input$n_instructors),
+                   function(x) {
+                       textInput(paste0("inst-", x),
+                                 paste0("Instructor ", x, ": "))
+                   }))
 
         output$helpers <- renderUI(lapply(seq_len(input$n_helpers), function(x) {
             textInput(paste0("helper-", x), paste0("Helper ", x, ": "))

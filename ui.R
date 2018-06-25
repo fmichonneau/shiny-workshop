@@ -1,4 +1,9 @@
 fluidPage(
+    theme = c("gmaps.css"),
+    tags$script(src = "gmaps.js"),
+    tags$script(src=glue::glue("https://maps.googleapis.com/maps/api/js?key={API_KEY}&libraries=places&callback=initMap",
+                               API_KEY = Sys.getenv("GMAPS_API_KEY")),
+                async = NA,  defer = NA),
     h3("Dates for the workshop:"),
     dateRangeInput("workshop_dates", "What are the dates for the workshops?"),
 
@@ -23,12 +28,19 @@ fluidPage(
     ),
 
     h3("Where is the workshop taking place?"),
-    textInput("short_name", "Short name (slug):"),
-    textInput("location", "Address of the workshop:"),
-    actionButton("push", "Search"),
-    textOutput("lat"),
-    textOutput("lon"),
-    tableOutput("res"),
+
+    tags$input(id = "pac-input", class = "controls", type = "text",
+               placeholder = "Enter a location for the workshop"),
+    tags$div(id = "map"),
+    tags$div(id = "infowindow-content",
+             tags$span(id = "place-name", class = "title"), tags$br(),
+             tags$span(id = "place-address")
+             ),
+
+    uiOutput("gmaps_res"),
+
+    h3("Workshop identifier"),
+    textInput("short_name", "Short name to be used in the workshop slug (don't include the date):"),
 
     h3("Who is teaching?"),
     numericInput("n_instructors", "Number of instructors: ", value = 2, min = 1, max = 10),
